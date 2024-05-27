@@ -1,55 +1,83 @@
-import { InjectionKey } from 'vue'
-import { Store, createStore } from 'vuex'
+import { reactive, toRefs } from 'vue'
 
-type TimerState = {
-  timer: number,
-  isRunning: boolean,
+type Dispatches = {
+  action: 'startTimer'
+} | {
+  action: 'stopTimer'
+} | {
+  action: 'resetTimer'
+}
+
+type Dispatch = (payload: Dispatches) => void
+
+type State = {
+  timer: number
+  isRunning: boolean
   intervalId: number | null
 }
 
-export const key: InjectionKey<Store<TimerState>> = Symbol('TimerState')
-
-export default createStore<TimerState>({
-  state: {
+export default function useTimer (intialState?: State) {
+  const state: State = reactive({
     timer: 0,
     isRunning: false,
-    intervalId: null
-  },
-  getters: {
-    getTimer: state => state.timer,
-    getIsRunning: state => state.isRunning
-  },
-  mutations: {
-    setTimer (state, value: number) {
-      state.timer = value
-    },
-    setIsRunning (state, value: boolean) {
-      state.isRunning = value
-    },
-    setIntervalId (state, value: number | null) {
-      state.intervalId = value
-    }
-  },
-  actions: {
-    startTimer ({ commit, state }) {
-      commit('setIsRunning', true)
-      const intervalId = setInterval(() => {
-        commit('setTimer', state.timer + 1)
-      }, 1000)
-      commit('setIntervalId', intervalId)
-    },
-    stopTimer ({ commit, state }) {
-      commit('setIsRunning', false)
-      if (state.intervalId) {
-        clearInterval(state.intervalId)
-      }
-    },
-    resetTimer ({ state, commit, dispatch }) {
-      commit('setTimer', 0)
-      if (state.isRunning) {
-        dispatch('stopTimer')
-        dispatch('startTimer')
-      }
+    intervalId: null,
+    ...intialState
+  })
+
+  function startTimer () {
+    state.isRunning = true
+    state.intervalId = setInterval(() => {
+      state.timer++
+    }, 1000)
+  }
+
+  function stopTimer () {
+    state.isRunning = false
+    if (state.intervalId) {
+      clearInterval(state.intervalId)
+      state.intervalId = null
     }
   }
-})
+
+  function resetTimer () {
+    state.timer = 0
+    if (state.isRunning) {
+      stopTimer()
+      startTimer()
+    }
+  }
+
+  const dispatch: Dispatch = ({ action }) => {
+    switch (action) {
+      case 'startTimer':
+        startTimer()
+        break
+      case 'stopTimer':
+        stopTimer()
+        break
+      case 'resetTimer':
+        resetTimer()
+        break
+      default:
+        break
+    }
+  }
+
+  const mutations = {
+    setTimer (value: number) {
+      state.timer = value
+    },
+    setIsRunning (value: boolean) {
+      state.isRunning = value
+    },
+    setIntervalId (value: number) {
+      state.intervalId = value
+    }
+  }
+
+  return {
+    mutations,
+    dispatch,
+    state: toRefs(state) // read
+  }
+}

@@ -12,39 +12,38 @@
 </template>
 
 <script lang='ts'>
+import useTimer from '@/store'
 import { computed, defineComponent, Ref } from 'vue'
-import { key } from '@/store'
-import { useStore } from 'vuex'
 
 export default defineComponent({
   setup () {
-    const store = useStore(key)
-    const time: Ref<number> = computed(() => store.getters.getTimer ?? 0)
-    const isRunning: Ref<boolean> = computed(() => store.state.isRunning)
+    const store = useTimer()
+    const timer: Ref<number> = store.state.timer
+    const isRunning: Ref<boolean> = store.state.isRunning
 
     const formattedTime: Ref<string> = computed(() => {
-      const minutes: number = Math.floor(time.value / 60)
-      const seconds: number = time.value % 60
+      const minutes: number = Math.floor(timer.value / 60)
+      const seconds: number = timer.value % 60
       return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     })
 
-    const startTimer: () => void = () => {
-      store.dispatch('startTimer')
-    }
-
-    const stopTimer: () => void = () => {
-      store.dispatch('stopTimer')
-    }
-
-    const resetTimer: () => void = () => {
-      store.dispatch('resetTimer')
-    }
-
     return {
       formattedTime,
-      startTimer,
-      stopTimer,
-      resetTimer,
+      startTimer: () => {
+        store.dispatch({
+          action: 'startTimer'
+        })
+      },
+      stopTimer: () => {
+        store.dispatch({
+          action: 'stopTimer'
+        })
+      },
+      resetTimer: () => {
+        store.dispatch({
+          action: 'resetTimer'
+        })
+      },
       isRunning
     }
   }
