@@ -4,22 +4,21 @@
             {{ formattedTime }}
         </div>
         <div class="timer-controls">
-            <button @click="startTimer" :disabled="isRunning">Start</button>
-            <button @click="stopTimer" :disabled="!isRunning">Stop</button>
-            <button @click="resetTimer">Reset</button>
+            <button class="button" @click="startTimer" :disabled="isRunning">Start</button>
+            <button class="button" @click="stopTimer" :disabled="!isRunning">Stop</button>
+            <button class="button" @click="resetTimer">Reset</button>
         </div>
     </div>
 </template>
 
 <script lang='ts'>
-import useTimer from '@/store'
+import { timerStore } from '@/store/timerStore'
 import { computed, defineComponent, Ref } from 'vue'
 
 export default defineComponent({
   setup () {
-    const store = useTimer()
-    const timer: Ref<number> = store.state.timer
-    const isRunning: Ref<boolean> = store.state.isRunning
+    const timer: Ref<number> = timerStore.state.timer
+    const isRunning: Ref<boolean> = timerStore.state.isRunning
 
     const formattedTime: Ref<string> = computed(() => {
       const minutes: number = Math.floor(timer.value / 60)
@@ -30,17 +29,17 @@ export default defineComponent({
     return {
       formattedTime,
       startTimer: () => {
-        store.dispatch({
+        timerStore.dispatch({
           action: 'startTimer'
         })
       },
       stopTimer: () => {
-        store.dispatch({
+        timerStore.dispatch({
           action: 'stopTimer'
         })
       },
       resetTimer: () => {
-        store.dispatch({
+        timerStore.dispatch({
           action: 'resetTimer'
         })
       },
@@ -56,8 +55,8 @@ export default defineComponent({
 }
 
 .timer-display {
-    font-size: 48px;
-    margin-bottom: 20px;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
 }
 
 .timer-controls {

@@ -3,8 +3,6 @@
     <Header>
       <h1>Vue 3 Timer</h1>
       <div class="menu-actions-box">
-        <button class='button'>Mute</button>
-        <button class="button">Instructions</button>
         <button class="button">Settings</button>
       </div>
     </Header>
