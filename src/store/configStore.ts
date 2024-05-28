@@ -59,19 +59,19 @@ const setGoalLength = (pomodoros: number) => {
 }
 
 // Dispatch
-const dispatch: Dispatch = ({ action, payload }) => {
-  switch (action) {
+const dispatch: Dispatch = (data) => {
+  switch (data.action) {
     case 'setPomodoroLength':
-      setPomodoroLength(payload.minutes)
+      setPomodoroLength(data.payload.minutes)
       break
     case 'setShortBreakLength':
-      setShortBreakLength(payload.minutes)
+      setShortBreakLength(data.payload.minutes)
       break
     case 'setLongBreakLength':
-      setLongBreakLength(payload.minutes)
+      setLongBreakLength(data.payload.minutes)
       break
     case 'setGoalLength':
-      setGoalLength(payload.pomodoros)
+      setGoalLength(data.payload.pomodoros)
       break
     default:
       break
