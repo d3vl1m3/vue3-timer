@@ -1,7 +1,7 @@
 import { pomodoroStore } from './pomodoroStore'
 import { timerStore } from './timerStore'
 import { configStore } from './configStore'
-import { computed, watch } from 'vue'
+import { watch } from 'vue'
 
 type Dispatches = {
   action: 'startSession'
