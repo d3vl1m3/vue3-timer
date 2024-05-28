@@ -73,10 +73,6 @@ header {
   margin-top: 0;
 }
 
-.timer-box button + button {
-  margin-top: 0.5rem;
-}
-
 footer {
   background-color: #f8f9fa;
   padding: 0.5rem 0.25rem;

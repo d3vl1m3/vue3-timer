@@ -3,22 +3,21 @@
         <div class="timer-display">
             {{ formattedTime }}
         </div>
-        <div class="timer-controls">
-            <button class="button" @click="startTimer" :disabled="isRunning">Start</button>
-            <button class="button" @click="stopTimer" :disabled="!isRunning">Stop</button>
-            <button class="button" @click="resetTimer">Reset</button>
-        </div>
+        <TimerActions/>
     </div>
 </template>
 
 <script lang='ts'>
 import { timerStore } from '@/store/timerStore'
 import { computed, defineComponent, Ref } from 'vue'
+import TimerActions from '@/components/timer-actions/TimerActions.vue'
 
 export default defineComponent({
+  components: {
+    TimerActions
+  },
   setup () {
     const timer: Ref<number> = timerStore.state.timer
-    const isRunning: Ref<boolean> = timerStore.state.isRunning
 
     const formattedTime: Ref<string> = computed(() => {
       const minutes: number = Math.floor(timer.value / 60)
@@ -27,23 +26,7 @@ export default defineComponent({
     })
 
     return {
-      formattedTime,
-      startTimer: () => {
-        timerStore.dispatch({
-          action: 'startTimer'
-        })
-      },
-      stopTimer: () => {
-        timerStore.dispatch({
-          action: 'stopTimer'
-        })
-      },
-      resetTimer: () => {
-        timerStore.dispatch({
-          action: 'resetTimer'
-        })
-      },
-      isRunning
+      formattedTime
     }
   }
 })
