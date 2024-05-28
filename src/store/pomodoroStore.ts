@@ -1,7 +1,7 @@
 import { reactive, toRefs } from 'vue'
 
 // Types
-type PomodoroStages = 'work' | 'short_break' | 'long_break';
+type PomodoroStages = 'work' | 'short_break' | 'long_break' | null
 
 type PomodoroState = {
     stage: PomodoroStages;
@@ -21,7 +21,7 @@ type Dispatch = (payload: Dispatches) => void
 
 // State
 const state: PomodoroState = reactive({
-  stage: 'work',
+  stage: null,
   intervalCounter: 0,
   longBreakInterval: 4
 })
