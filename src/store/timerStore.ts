@@ -1,5 +1,6 @@
 import { reactive, toRefs } from 'vue'
 
+// Types
 type Dispatches = {
   action: 'startTimer'
 } | {
@@ -10,18 +11,20 @@ type Dispatches = {
 
 type Dispatch = (payload: Dispatches) => void
 
-type State = {
+type TimerState = {
   timer: number
   isRunning: boolean
   intervalId: number | null
 }
 
-const state: State = reactive({
+// State
+const state: TimerState = reactive({
   timer: 0,
   isRunning: false,
   intervalId: null
 })
 
+// Actions
 function startTimer () {
   state.isRunning = true
   state.intervalId = setInterval(() => {
@@ -45,6 +48,7 @@ function resetTimer () {
   }
 }
 
+// Dispatch
 const dispatch: Dispatch = ({ action }) => {
   switch (action) {
     case 'startTimer':
@@ -61,20 +65,8 @@ const dispatch: Dispatch = ({ action }) => {
   }
 }
 
-const mutations = {
-  setTimer (value: number) {
-    state.timer = value
-  },
-  setIsRunning (value: boolean) {
-    state.isRunning = value
-  },
-  setIntervalId (value: number) {
-    state.intervalId = value
-  }
-}
-
+// Store
 export const timerStore = {
   state: toRefs(state),
-  dispatch,
-  mutations
+  dispatch
 }
