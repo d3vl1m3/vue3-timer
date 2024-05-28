@@ -9,22 +9,32 @@ type ConfigState = {
 
 type Dispatches = {
   action: 'setPomodoroLength',
-  payload: number
+  payload: {
+    minutes: number
+  }
 } | {
   action: 'setShortBreakLength',
-payload: number
+  payload: {
+    minutes: number
+  }
 } | {
   action: 'setLongBreakLength',
-    payload: number
+    payload: {
+      minutes: number
+    }
 } | {
   action: 'setGoalLength',
-  payload: number
+  payload: {
+    pomodoros: number
+
+  }
 }
 
 type Dispatch = (payload: Dispatches) => void
 
 // State
 const state: ConfigState = reactive({
+  // All lengths are in minutes
   pomodoroLength: 25,
   shortBreakLength: 5,
   longBreakLength: 15,
@@ -32,36 +42,36 @@ const state: ConfigState = reactive({
 })
 
 // Actions
-const setPomodoroLength = (length: number) => {
-  state.pomodoroLength = length
+const setPomodoroLength = (minutes: number) => {
+  state.pomodoroLength = minutes
 }
 
-const setShortBreakLength = (length: number) => {
-  state.shortBreakLength = length
+const setShortBreakLength = (minutes: number) => {
+  state.shortBreakLength = minutes
 }
 
-const setLongBreakLength = (length: number) => {
-  state.longBreakLength = length
+const setLongBreakLength = (minutes: number) => {
+  state.longBreakLength = minutes
 }
 
-const setGoalLength = (length: number) => {
-  state.goalLength = length
+const setGoalLength = (pomodoros: number) => {
+  state.goalLength = pomodoros
 }
 
 // Dispatch
 const dispatch: Dispatch = ({ action, payload }) => {
   switch (action) {
     case 'setPomodoroLength':
-      setPomodoroLength(payload)
+      setPomodoroLength(payload.minutes)
       break
     case 'setShortBreakLength':
-      setShortBreakLength(payload)
+      setShortBreakLength(payload.minutes)
       break
     case 'setLongBreakLength':
-      setLongBreakLength(payload)
+      setLongBreakLength(payload.minutes)
       break
     case 'setGoalLength':
-      setGoalLength(payload)
+      setGoalLength(payload.pomodoros)
       break
     default:
       break
