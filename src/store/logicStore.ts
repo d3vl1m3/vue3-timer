@@ -20,7 +20,7 @@ const completedGoal = () => {
 
 // Watchers
 const isCurrentIntervalComplete = () => {
-  const isPomodoroIntervalComplete = pomodoroStore.state.stage.value === 'work' && configStore.state.pomodoroLength.value <= timerStore.state.timer.value
+  const isPomodoroIntervalComplete = pomodoroStore.state.stage.value === 'pomodoro' && configStore.state.pomodoroLength.value <= timerStore.state.timer.value
 
   const isShortBreakIntervalComplete = pomodoroStore.state.stage.value === 'short_break' && configStore.state.shortBreakLength.value <= timerStore.state.timer.value
 

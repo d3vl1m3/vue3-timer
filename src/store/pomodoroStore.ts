@@ -1,7 +1,7 @@
 import { reactive, toRefs } from 'vue'
 
 // Types
-type PomodoroStages = 'work' | 'short_break' | 'long_break' | null
+type PomodoroStages = 'pomodoro' | 'short_break' | 'long_break' | null
 
 type PomodoroState = {
     stage: PomodoroStages;
@@ -32,14 +32,14 @@ const incrementInterval = () => {
 }
 
 const nextStage = () => {
-  if (state.stage === 'work') {
+  if (state.stage === 'pomodoro') {
     if (state.intervalCounter % state.longBreakInterval === 0) {
       state.stage = 'long_break'
     } else {
       state.stage = 'short_break'
     }
   } else {
-    state.stage = 'work'
+    state.stage = 'pomodoro'
   }
 
   incrementInterval()
