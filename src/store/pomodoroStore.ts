@@ -5,7 +5,7 @@ type PomodoroStages = 'pomodoro' | 'short_break' | 'long_break' | null
 
 type PomodoroState = {
     stage: PomodoroStages;
-    intervalCounter: number;
+    pomodoroCounter: number;
     longBreakInterval: number;
 }
 
@@ -22,18 +22,18 @@ type Dispatch = (payload: Dispatches) => void
 // State
 const state: PomodoroState = reactive({
   stage: null,
-  intervalCounter: 0,
+  pomodoroCounter: 0,
   longBreakInterval: 4
 })
 
 // Actions
-const incrementInterval = () => {
-  state.intervalCounter++
+const incrementPomodoro = () => {
+  state.pomodoroCounter++
 }
 
 const nextStage = () => {
   if (state.stage === 'pomodoro') {
-    if (state.intervalCounter % state.longBreakInterval === 0) {
+    if (state.pomodoroCounter % state.longBreakInterval === 0) {
       state.stage = 'long_break'
     } else {
       state.stage = 'short_break'
@@ -42,11 +42,11 @@ const nextStage = () => {
     state.stage = 'pomodoro'
   }
 
-  incrementInterval()
+  incrementPomodoro()
 }
 
 const resetPosition = () => {
-  state.intervalCounter = 0
+  state.pomodoroCounter = 0
 }
 
 // Dispatch
